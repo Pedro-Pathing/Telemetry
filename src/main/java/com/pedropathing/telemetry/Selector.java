@@ -1,16 +1,21 @@
 package com.pedropathing.telemetry;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.Consumer;
 
 public final class Selector<T> {
     private final FolderStack<T> folders = new FolderStack<>();
-    private final String message;
+    private final String[] message;
 
-    public Selector(Folder<T> rootFolder, String message) {
+    public Selector(Folder<T> rootFolder, String[] message) {
         folders.push(rootFolder);
         this.message = message;
+    }
+
+    public Selector(Folder<T> rootFolder, String message) {
+        this(rootFolder, new String[]{message});
     }
 
     public Selector(Folder<T> rootFolder) {
@@ -18,10 +23,15 @@ public final class Selector<T> {
     }
 
     public static <T> Selector<T> create(String name, Consumer<SelectScope<T>> children,
-                                         String message) {
+                                         String[] message) {
         SelectScope<T> scope = new SelectScope<>();
         children.accept(scope);
         return new Selector<>(new Folder<>(name, scope.getSelectables()), message);
+    }
+
+    public static <T> Selector<T> create(String name, Consumer<SelectScope<T>> children,
+                                         String message) {
+        return create(name, children, new String[]{message});
     }
 
     public static <T> Selector<T> create(String name, Consumer<SelectScope<T>> children) {
@@ -31,7 +41,7 @@ public final class Selector<T> {
     public List<String> getLines() {
         List<String> lines = new ArrayList<>();
         lines.add(folders.getBreadcrumb());
-        if (!message.isEmpty()) lines.add(message);
+        Collections.addAll(lines, message);
         lines.add("------------");
         lines.addAll(folders.peek().getLines());
         return lines;

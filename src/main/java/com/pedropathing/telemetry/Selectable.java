@@ -39,12 +39,4 @@ public class Selectable {
         }
         this.name = name;
     }
-
-    @Override
-    public String toString() {
-        String prefix = ">";
-        if (parent == null)
-            prefix = "-";
-        return prefix + " " + name;
-    }
 }

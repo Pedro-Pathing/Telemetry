@@ -26,14 +26,4 @@ public class Selector {
     public boolean hasSelectables() {
         return !selectables.isEmpty();
     }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-
-        for (Selectable selectable : selectables) {
-            sb.append(selectable.toString()).append("\n");
-        }
-        return sb.toString();
-    }
 }

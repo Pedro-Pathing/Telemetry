@@ -33,14 +33,4 @@ public class Folder extends Selectable {
     public boolean hasChildren() {
         return !children.isEmpty();
     }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(super.toString()).append("\n");
-        for (Selectable child : children) {
-            sb.append("  ").append(child.toString()).append("\n");
-        }
-        return sb.toString();
-    }
 }

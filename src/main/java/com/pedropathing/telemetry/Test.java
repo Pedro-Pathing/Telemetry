@@ -4,24 +4,49 @@ public class Test {
     public static void main(String[] args) {
         Selector selector = new Selector()
                 .addSelectable(
-                        new Folder("Localization")
+                        new Folder("Location")
                                 .addChild(
-                                        new Folder("English")
-                                                .addChild(new Selectable("en-US"))
-                                                .addChild(new Selectable("en-GB"))
+                                        new Folder("North America")
+                                                .addChild(new Selectable("America"))
+                                                .addChild(new Selectable("Mexico"))
+                                                .addChild(new Selectable("Canada"))
                                 )
                                 .addChild(
-                                        new Folder("Spanish")
-                                                .addChild(new Selectable("es-ES"))
-                                                .addChild(new Selectable("es-MX"))
+                                        new Folder("Europe")
+                                                .addChild(new Selectable("Germany"))
+                                                .addChild(new Selectable("France"))
+                                                .addChild(new Selectable("Spain"))
                                 )
                                 .addChild(
-                                        new Folder("Spanish")
-                                                .addChild(new Selectable("es-ES"))
-                                                .addChild(new Selectable("es-MX"))
+                                        new Folder("Asia")
+                                                .addChild(new Selectable("China"))
+                                                .addChild(new Selectable("Japan"))
+                                                .addChild(new Selectable("India"))
                                 )
+                                .addChild(
+                                        new Folder("Oceania")
+                                                .addChild(new Selectable("Australia"))
+                                                .addChild(new Selectable("New Zealand"))
+                                )
+                                .addChild(
+                                        new Folder("Africa")
+                                                .addChild(new Selectable("South Africa"))
+                                                .addChild(new Selectable("Nigeria"))
+                                                .addChild(new Selectable("Kenya"))
+                                )
+                                .addChild(
+                                        new Folder("South America")
+                                                .addChild(new Selectable("Brazil"))
+                                                .addChild(new Selectable("Argentina"))
+                                                .addChild(new Selectable("Chile"))
+                                )
+                )
+                .addSelectable(
+                        new Folder("Device")
+                                .addChild(new Selectable("Phone"))
+                                .addChild(new Selectable("Tablet"))
+                                .addChild(new Selectable("Laptop"))
+                                .addChild(new Selectable("Desktop"))
                 );
-
-        System.out.println(selector.toString());
     }
 }

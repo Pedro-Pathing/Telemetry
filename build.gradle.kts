@@ -11,35 +11,6 @@ plugins {
 	id("org.jetbrains.dokka") version "1.9.20"
 }
 
-tasks.named<org.jetbrains.dokka.gradle.DokkaTask>("dokkaJavadoc") {
-	outputDirectory.set(file("${buildDir}/dokka"))
-
-	dokkaSourceSets {
-		named("main") {
-			sourceRoots.from(file("src/main/kotlin"), file("src/main/java"))
-			reportUndocumented.set(true)
-			skipDeprecated.set(false)
-			jdkVersion.set(8) // or adjust based on your requirements
-			perPackageOption {
-				matchingRegex.set("com\\.acmerobotics\\.roadrunner\\.ftc.*")
-				suppress.set(true) // Exclude this package
-			}
-		}
-	}
-}
-
-tasks.dokkaHtml {
-	dokkaSourceSets {
-		named("main") {
-			perPackageOption {
-				matchingRegex.set("com\\.acmerobotics\\.roadrunner\\.ftc.*")
-				suppress.set(true) // Exclude this package
-			}
-		}
-	}
-}
-
-
 val defaultMinSdkVersion by extra(29)
 val defaultMinSdkVersion1 by extra(23)
 
@@ -79,11 +50,7 @@ dependencies {
 	compileOnly("org.firstinspires.ftc:FtcCommon:10.2.0")
 	compileOnly("org.firstinspires.ftc:RobotServer:10.2.0")
 	compileOnly("org.firstinspires.ftc:OnBotJava:10.2.0")
-	compileOnly("com.acmerobotics.dashboard:dashboard:0.4.16")
 
-	implementation("org.apache.commons:commons-math3:3.6.1")
-	dokkaHtmlPlugin("org.jetbrains.dokka:kotlin-as-java-plugin:1.9.20")
-	dokkaGfmPlugin("org.jetbrains.dokka:kotlin-as-java-plugin:1.9.20")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.9.20")
 }
 
@@ -92,8 +59,8 @@ publishing {
 	publications {
 		register<MavenPublication>("release") {
 			groupId = "com.pedropathing"
-			artifactId = "pedro"
-			version = "1.0.9"
+			artifactId = "telemetry"
+			version = "0.0.1"
 
 			afterEvaluate {
 				from(components["release"])

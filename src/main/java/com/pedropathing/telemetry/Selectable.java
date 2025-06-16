@@ -1,42 +1,28 @@
 package com.pedropathing.telemetry;
 
-public class Selectable {
-    private String name;
-    private Folder parent;
+import org.jetbrains.annotations.NotNull;
 
-    /** Constructor for Selectable */
-    public Selectable(String name, Folder parent) {
-        this.name = name;
-        this.parent = parent;
-    }
+/**
+ * An item that can be selected
+ *
+ * @author Baron Henderson - 20077 The Indubitables
+ * @author Davis Luxenberg - 12649 Code Blooded
+ * @noinspection unused
+ */
+public abstract class Selectable<T> {
+    /**
+     * The name of the {@link Selectable}. Shown in the select menu.
+     */
+    @NotNull
+    public final String name;
 
-    /** Constructor for Selectable in root folder */
-    public Selectable(String name) {
-        this(name, null);
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public Folder getParent() {
-        if (parent == null) {
-            throw new IllegalStateException("This Selectable does not have a parent folder.");
-        }
-        return parent;
-    }
-
-    public void setParent(Folder parent) {
-        if (this.parent != null) {
-            throw new IllegalStateException("This Selectable already has a parent folder.");
-        }
-        this.parent = parent;
-    }
-
-    public void setName(String name) {
-        if (name == null || name.isEmpty()) {
-            throw new IllegalArgumentException("Name cannot be null or empty.");
-        }
+    /**
+     * Constructs a {@link Selectable} with the given name.
+     *
+     * @param name the name of the selectable
+     */
+    Selectable(@NotNull String name) {
         this.name = name;
     }
 }
+

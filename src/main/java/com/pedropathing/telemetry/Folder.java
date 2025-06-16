@@ -1,36 +1,38 @@
 package com.pedropathing.telemetry;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-public class Folder extends Selectable {
-    private List<Selectable> children;
+public final class Folder<T> extends Selectable<T> {
+    private final List<Selectable<T>> children;
+    private int selectedIndex = 0;
 
-    /** Constructor for Folder with children and parent */
-    public Folder(String name, Folder parent) {
-        super(name, parent);
-        this.children = new ArrayList<Selectable>();
+    public Selectable<T> getSelected() {
+        return children.get(selectedIndex);
     }
 
-    /** Constructor for Folder with children located in the root folder */
-    public Folder(String name) {
-        this(name, null);
+    public void incrementSelected() {
+        if (selectedIndex < children.size() - 1) selectedIndex++;
     }
 
-    public List<Selectable> getChildren() {
-        return children;
+    public void decrementSelected() {
+        if (selectedIndex > 0) selectedIndex--;
     }
 
-    public Folder addChild(Selectable child) {
-        if (child != null) {
-            children.add(child);
-            child.setParent(this);
+    /**
+     * Constructor for Folder with children and parent
+     */
+    public Folder(String name, List<Selectable<T>> children) {
+        super(name);
+        this.children = children;
+    }
+
+    public List<String> getLines() {
+        List<String> lines = new ArrayList<>();
+        for (int i = 0; i < children.size(); i++) {
+            if (i == selectedIndex) lines.add("> " + children.get(i).name);
+            else lines.add("  " + children.get(i).name);
         }
-        return this;
-    }
-
-    public boolean hasChildren() {
-        return !children.isEmpty();
+        return lines;
     }
 }

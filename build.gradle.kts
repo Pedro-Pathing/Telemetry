@@ -12,7 +12,7 @@ plugins {
 }
 
 val defaultMinSdkVersion by extra(29)
-val defaultMinSdkVersion1 by extra(23)
+val defaultMinSdkVersion1 by extra(24)
 
 repositories {
 	mavenCentral()
@@ -40,7 +40,7 @@ android {
 		}
 	}
 	defaultConfig {
-		minSdk = 23
+		minSdk = 24
 	}
 }
 

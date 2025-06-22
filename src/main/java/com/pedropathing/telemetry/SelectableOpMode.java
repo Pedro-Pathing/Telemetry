@@ -16,7 +16,10 @@ public abstract class SelectableOpMode extends OpMode {
 
     public SelectableOpMode(String name, Consumer<SelectScope<Supplier<OpMode>>> opModes) {
         selector = Selector.create(name, opModes, MESSAGE);
-        selector.onSelect(opModeSupplier -> selectedOpMode = opModeSupplier.get());
+        selector.onSelect(opModeSupplier -> {
+            selectedOpMode = opModeSupplier.get();
+            selectedOpMode.init();
+        });
     }
 
     @Override
@@ -25,14 +28,16 @@ public abstract class SelectableOpMode extends OpMode {
 
     @Override
     public final void init_loop() {
-        if (gamepad1.dpad_up || gamepad2.dpad_up) selector.decrementSelected();
-        else if (gamepad1.dpad_down || gamepad2.dpad_down) selector.incrementSelected();
-        else if (gamepad1.right_bumper || gamepad2.right_bumper) selector.select();
-        else if (gamepad1.left_bumper || gamepad2.left_bumper) selector.goBack();
+        if (selectedOpMode == null) {
+            if (gamepad1.dpad_up || gamepad2.dpad_up) selector.decrementSelected();
+            else if (gamepad1.dpad_down || gamepad2.dpad_down) selector.incrementSelected();
+            else if (gamepad1.right_bumper || gamepad2.right_bumper) selector.select();
+            else if (gamepad1.left_bumper || gamepad2.left_bumper) selector.goBack();
 
-        for (String line : selector.getLines()) {
-            telemetry.addLine(line);
-        }
+            for (String line : selector.getLines()) {
+                telemetry.addLine(line);
+            }
+        } else selectedOpMode.init_loop();
     }
 
     @Override

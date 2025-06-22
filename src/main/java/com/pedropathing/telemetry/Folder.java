@@ -30,8 +30,11 @@ public final class Folder<T> extends Selectable<T> {
     public List<String> getLines() {
         List<String> lines = new ArrayList<>();
         for (int i = 0; i < children.size(); i++) {
-            if (i == selectedIndex) lines.add("> " + children.get(i).name);
-            else lines.add("  " + children.get(i).name);
+            Selectable<T> child = children.get(i);
+            String listName;
+            if (child instanceof Item) listName = child.name;
+            else listName = child.name + " [...]";
+            lines.add(i == selectedIndex ? "> " : "  " + listName);
         }
         return lines;
     }

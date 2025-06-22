@@ -2,6 +2,7 @@ package com.pedropathing.telemetry;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public final class FolderStack<T> {
@@ -14,7 +15,7 @@ public final class FolderStack<T> {
 
     public void push(Folder<T> folder) {
         folders.addLast(folder);
-        breadcrumb += " / " + folder.name;
+        breadcrumb += (Objects.equals(breadcrumb, "") ? "" : " / ") + folder.name;
     }
 
     public Folder<T> pop() {

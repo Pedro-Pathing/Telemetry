@@ -17,7 +17,6 @@ val defaultMinSdkVersion1 by extra(24)
 repositories {
 	mavenCentral()
 	google()
-	maven("https://maven.brott.dev/")
 }
 
 android {
@@ -32,16 +31,54 @@ android {
 		jvmTarget = "1.8"
 	}
 	publishing {
-		singleVariant("release")
+		singleVariant("release") {
+			withSourcesJar()
+			withJavadocJar()
+		}
+
 	}
 	sourceSets {
 		getByName("main") {
 			java.srcDirs("src/main/kotlin")
+
 		}
 	}
 	defaultConfig {
 		minSdk = 24
 	}
+}
+
+android.libraryVariants.configureEach {
+	val newName = "generate${name.replaceFirstChar { it.uppercase() }}Javadoc"
+	val newJavadocTask = tasks.register<Javadoc>(newName) {
+		group = "Documentation"
+		description = "Generates Javadoc for $name"
+		source = javaCompileProvider.get().source
+		val androidJar =
+			"${android.sdkDirectory}/platforms/${android.compileSdkVersion}/android.jar"
+		classpath = files(getCompileClasspath(null)) + files(androidJar)
+		with(options as StandardJavadocDocletOptions) {
+			memberLevel = JavadocMemberLevel.PROTECTED
+			links("https://developer.android.com/reference")
+			encoding = "UTF-8"
+		}
+	}
+
+	if (name == "release") {
+		tasks.named<Jar>("javadocJar") {
+			dependsOn(newJavadocTask)
+			from(newJavadocTask.map { it.destinationDir!! })
+		}
+	}
+}
+
+tasks.register<Jar>("javadocJar") {
+	archiveClassifier = "javadoc"
+}
+
+tasks.register<Jar>("sourcesJar") {
+	from(android.sourceSets["main"].java.srcDirs)
+	archiveClassifier = "sources"
 }
 
 dependencies {
@@ -54,13 +91,13 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.9.20")
 }
 
-// CONFIGURE PUBLICATION
+
 publishing {
 	publications {
 		register<MavenPublication>("release") {
 			groupId = "com.pedropathing"
 			artifactId = "telemetry"
-			version = "0.0.1"
+			version = "0.0.1-local2"
 
 			afterEvaluate {
 				from(components["release"])

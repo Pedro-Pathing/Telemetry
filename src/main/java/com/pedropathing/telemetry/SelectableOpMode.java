@@ -23,7 +23,7 @@ public abstract class SelectableOpMode extends OpMode {
     }
 
     @Override
-    public final void init() {
+    public void init() {
     }
 
     @Override

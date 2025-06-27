@@ -17,9 +17,20 @@ public abstract class SelectableOpMode extends OpMode {
     public SelectableOpMode(String name, Consumer<SelectScope<Supplier<OpMode>>> opModes) {
         selector = Selector.create(name, opModes, MESSAGE);
         selector.onSelect(opModeSupplier -> {
+            onSelect();
             selectedOpMode = opModeSupplier.get();
+            selectedOpMode.gamepad1 = gamepad1;
+            selectedOpMode.gamepad2 = gamepad2;
+            selectedOpMode.telemetry = telemetry;
+            selectedOpMode.hardwareMap = hardwareMap;
             selectedOpMode.init();
         });
+    }
+
+    protected void onSelect() {
+    }
+
+    protected void onLog(String line) {
     }
 
     @Override
@@ -29,24 +40,25 @@ public abstract class SelectableOpMode extends OpMode {
     @Override
     public final void init_loop() {
         if (selectedOpMode == null) {
-            if (gamepad1.dpad_up || gamepad2.dpad_up) selector.decrementSelected();
-            else if (gamepad1.dpad_down || gamepad2.dpad_down) selector.incrementSelected();
-            else if (gamepad1.right_bumper || gamepad2.right_bumper) selector.select();
-            else if (gamepad1.left_bumper || gamepad2.left_bumper) selector.goBack();
+            if (gamepad1.dpadUpWasPressed() || gamepad2.dpadUpWasPressed())
+                selector.decrementSelected();
+            else if (gamepad1.dpadDownWasPressed() || gamepad2.dpadDownWasPressed())
+                selector.incrementSelected();
+            else if (gamepad1.rightBumperWasPressed() || gamepad2.rightBumperWasPressed())
+                selector.select();
+            else if (gamepad1.leftBumperWasPressed() || gamepad2.leftBumperWasPressed())
+                selector.goBack();
 
             for (String line : selector.getLines()) {
                 telemetry.addLine(line);
+                onLog(line);
             }
         } else selectedOpMode.init_loop();
     }
 
     @Override
-    public void start() {
+    public final void start() {
         if (selectedOpMode == null) throw new RuntimeException("No OpMode selected!");
-        selectedOpMode.gamepad1 = gamepad1;
-        selectedOpMode.gamepad2 = gamepad2;
-        selectedOpMode.telemetry = telemetry;
-        selectedOpMode.hardwareMap = hardwareMap;
         selectedOpMode.start();
     }
 

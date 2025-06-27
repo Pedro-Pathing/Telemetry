@@ -34,7 +34,7 @@ public final class Folder<T> extends Selectable<T> {
             String listName;
             if (child instanceof Item) listName = child.name;
             else listName = child.name + " [...]";
-            lines.add(i == selectedIndex ? "> " : "  " + listName);
+            lines.add((i == selectedIndex ? "> " : "  ") + listName);
         }
         return lines;
     }

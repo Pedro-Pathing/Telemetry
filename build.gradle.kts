@@ -82,12 +82,10 @@ tasks.register<Jar>("sourcesJar") {
 }
 
 dependencies {
-	compileOnly("org.firstinspires.ftc:RobotCore:10.2.0")
-	compileOnly("org.firstinspires.ftc:Hardware:10.2.0")
-	compileOnly("org.firstinspires.ftc:FtcCommon:10.2.0")
-	compileOnly("org.firstinspires.ftc:RobotServer:10.2.0")
-	compileOnly("org.firstinspires.ftc:OnBotJava:10.2.0")
-
+	//noinspection Aligned16KB
+	compileOnly("org.firstinspires.ftc:RobotCore:10.3.0")
+	compileOnly("org.firstinspires.ftc:Hardware:10.3.0")
+	compileOnly("org.firstinspires.ftc:FtcCommon:10.3.0")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.9.20")
 }
 
@@ -97,7 +95,7 @@ publishing {
 		register<MavenPublication>("release") {
 			groupId = "com.pedropathing"
 			artifactId = "telemetry"
-			version = "0.0.2"
+			version = "0.0.3"
 
 			afterEvaluate {
 				from(components["release"])

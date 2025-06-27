@@ -23,7 +23,7 @@ public abstract class SelectableOpMode extends OpMode {
     }
 
     @Override
-    public void init() {
+    public final void init() {
     }
 
     @Override
@@ -41,7 +41,7 @@ public abstract class SelectableOpMode extends OpMode {
     }
 
     @Override
-    public final void start() {
+    public void start() {
         if (selectedOpMode == null) throw new RuntimeException("No OpMode selected!");
         selectedOpMode.gamepad1 = gamepad1;
         selectedOpMode.gamepad2 = gamepad2;

@@ -19,7 +19,7 @@ public final class Selector<T> {
     }
 
     public Selector(Folder<T> rootFolder) {
-        this(rootFolder, "");
+        this(rootFolder, new String[]{});
     }
 
     public static <T> Selector<T> create(String name, Consumer<SelectScope<T>> children,
@@ -35,7 +35,7 @@ public final class Selector<T> {
     }
 
     public static <T> Selector<T> create(String name, Consumer<SelectScope<T>> children) {
-        return create(name, children, "");
+        return create(name, children, new String[]{});
     }
 
     public List<String> getLines() {

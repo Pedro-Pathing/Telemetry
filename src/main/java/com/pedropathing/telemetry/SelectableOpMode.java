@@ -2,6 +2,7 @@ package com.pedropathing.telemetry;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
+import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -30,7 +31,7 @@ public abstract class SelectableOpMode extends OpMode {
     protected void onSelect() {
     }
 
-    protected void onLog(String line) {
+    protected void onLog(List<String> line) {
     }
 
     @Override
@@ -49,10 +50,11 @@ public abstract class SelectableOpMode extends OpMode {
             else if (gamepad1.leftBumperWasPressed() || gamepad2.leftBumperWasPressed())
                 selector.goBack();
 
-            for (String line : selector.getLines()) {
+            List<String> lines = selector.getLines();
+            for (String line : lines) {
                 telemetry.addLine(line);
-                onLog(line);
             }
+            onLog(lines);
         } else selectedOpMode.init_loop();
     }
 

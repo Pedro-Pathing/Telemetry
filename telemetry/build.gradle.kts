@@ -48,6 +48,7 @@ deployer {
 
         developer("Baron Henderson", "baron@pedropathing.com")
         developer("Havish Sripada", "havish@pedropathing.com")
+        developer("Davis Luxenberg", "davis@pedropathing.com")
     }
 
     signing {

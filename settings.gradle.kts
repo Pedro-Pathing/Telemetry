@@ -1,10 +1,19 @@
 pluginManagement {
-	repositories {
-		gradlePluginPortal()
-		google()
-		mavenCentral()
-		maven("https://maven.brott.dev/")
-	}
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+    }
 }
 
-rootProject.name = "PedroPathing"
+@Suppress("UnstableApiUsage")
+dependencyResolutionManagement {
+    repositoriesMode = RepositoriesMode.FAIL_ON_PROJECT_REPOS
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+rootProject.name = "Pedro Pathing"
+include(":telemetry")

@@ -15,5 +15,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Pedro Pathing"
+rootProject.name = "Telemetry"
 include(":telemetry")

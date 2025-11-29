@@ -2,7 +2,9 @@ package com.pedropathing.telemetry;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
+import java.lang.reflect.Field;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -24,6 +26,20 @@ public abstract class SelectableOpMode extends OpMode {
             selectedOpMode.gamepad2 = gamepad2;
             selectedOpMode.telemetry = telemetry;
             selectedOpMode.hardwareMap = hardwareMap;
+
+            // why does the sdk have to suck so much
+            final Field internalOpModeServices;
+            try {
+                internalOpModeServices = Objects.requireNonNull(OpMode.class.getSuperclass()).getDeclaredField("internalOpModeServices");
+            } catch (NoSuchFieldException e) {
+                throw new RuntimeException(e);
+            }
+            internalOpModeServices.setAccessible(true);
+            try {
+                internalOpModeServices.set(selectedOpMode, internalOpModeServices.get(this));
+            } catch (IllegalAccessException e) {
+                throw new RuntimeException(e);
+            }
             selectedOpMode.init();
         });
     }

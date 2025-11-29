@@ -13,8 +13,8 @@ public abstract class SelectableOpMode extends OpMode {
     private OpMode selectedOpMode;
     private final static String[] MESSAGE = {
             "Use the d-pad to move the cursor.",
-            "Press right bumper to select.",
-            "Press left bumper to go back."
+            "Press right bumper or d-pad right to select.",
+            "Press left bumper or d-pad left to go back."
     };
 
     public SelectableOpMode(String name, Consumer<SelectScope<Supplier<OpMode>>> opModes) {
@@ -61,9 +61,15 @@ public abstract class SelectableOpMode extends OpMode {
                 selector.decrementSelected();
             else if (gamepad1.dpadDownWasPressed() || gamepad2.dpadDownWasPressed())
                 selector.incrementSelected();
-            else if (gamepad1.rightBumperWasPressed() || gamepad2.rightBumperWasPressed())
+            else if (gamepad1.rightBumperWasPressed() ||
+                    gamepad2.rightBumperWasPressed() ||
+                    gamepad1.dpadRightWasPressed() ||
+                    gamepad2.dpadRightWasPressed())
                 selector.select();
-            else if (gamepad1.leftBumperWasPressed() || gamepad2.leftBumperWasPressed())
+            else if (gamepad1.leftBumperWasPressed() ||
+                    gamepad2.leftBumperWasPressed() ||
+                    gamepad1.dpadLeftWasPressed() ||
+                    gamepad2.dpadLeftWasPressed())
                 selector.goBack();
 
             List<String> lines = selector.getLines();
